@@ -214,4 +214,3 @@ Utöver Detta bör du komma ihåg att schemat ej uppdateras automatiskt, utan pr
 
 if __name__ == '__main__':
     main()
-    print("Hello world")
