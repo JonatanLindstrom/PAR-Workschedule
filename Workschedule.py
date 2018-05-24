@@ -144,15 +144,17 @@ def readCal(path):
 
 def createCal():
     root.filename = filedialog.askopenfilename(title = "Select file",filetypes = (("PDF-files","*.pdf"),("all files","*.*")))
-    root.withdraw()
 
-    print('Läser in schema...')
-    schema = readSchedule(root.filename)
-    print('Inläsning lyckad!\n')
+    if root.filename != '':
+        print('Läser in schema...')
+        schema = readSchedule(root.filename)
+        print('Inläsning lyckad!\n')
 
-    print('Skapar iCalendar-fil...')
-    writeCal(schema, root.filename)
-    print('Fil skapad!')
+        print('Skapar iCalendar-fil...')
+        writeCal(schema, root.filename)
+        print('Fil skapad!')
+    else:
+        print('Programmet avbrutet.')
 
     return
 
@@ -194,10 +196,11 @@ def main():
 
 
 root = Tk()
+root.withdraw()
 
-intro = '''OBS: Detta program är skrivet privat och används på eget bevåg!\n
+intro = '''OBS: Detta program är skrivet privat och används på eget bevåg!
 Jag som skapare garanterar inte att det fungerar felfritt, utan dubbelkolla alltid resultatet.
-Utöver Detta bör du komma ihåg att schemat ej uppdateras automatiskt, utan programmet måste köras för varje ny schemaändring.\n''' 
+Utöver detta bör du komma ihåg att schemat ej uppdateras automatiskt, utan uppdatering av schemat måste göras manuellt.\n''' 
 
 if __name__ == '__main__':
     main()
