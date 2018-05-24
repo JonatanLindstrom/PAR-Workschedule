@@ -1,4 +1,8 @@
 import os
+# Import GUI
+from tkinter import *
+from tkinter import filedialog
+# Import PDFMiner
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfpage import PDFPage
@@ -139,10 +143,11 @@ def readCal(path):
 
 
 def createCal():
-    path = input('Skriv filvägen för ditt schema (ex. C:\\\\User\\\\Downloads\\\\Schema.pdf): \n')
+    root.filename = filedialog.askopenfilename(title = "Select file",filetypes = (("PDF-files","*.pdf"),("all files","*.*")))
+    root.withdraw()
 
     print('Läser in schema...')
-    schema = readSchedule(path)
+    schema = readSchedule(root.filename)
     print('Inläsning lyckad!\n')
 
     print('Skapar iCalendar-fil...')
@@ -162,8 +167,8 @@ def writeCal(workschedule):
         stime = workshift.starttime.split(':')
         etime = workshift.endtime.split(':')
 
-        dtstart = datetime(int(date[0]), int(date[1]), int(date[2]), int(stime[0]), int(stime[1], 0))
-        dtend = datetime(int(date[0]), int(date[1]), int(date[2]), int(etime[0]), int(etime[1], 0))
+        dtstart = datetime(int(date[0]), int(date[1]), int(date[2]), int(stime[0]), int(stime[1]))
+        dtend = datetime(int(date[0]), int(date[1]), int(date[2]), int(etime[0]), int(etime[1]))
 
         event.add('summary', workshift.info)
         event.add('dtstart', dtstart)
@@ -179,9 +184,7 @@ def writeCal(workschedule):
 
 def compareCal():
     pathSchedule = 'D:\\Jonatan\\Downloads\\Arbetsschema - Jonatan Lindstrom.pdf'
-    #input('Skriv filvägen för ditt schema (ex. C:\\\\User\\\\Downloads\\\\Schema.pdf): \n')
     pathCal = 'D:\\Jonatan\\Documents\\Programmering\\arbetsschema.isc'
-    #input('Skriv filvägen för kalendern (ex. C:\\\\User\\\\Downloads\\\\Kalender.isc): \n')
 
     print('Läser in schema...')
     schema = readSchedule(pathSchedule)
@@ -192,7 +195,9 @@ def compareCal():
 
 
 def main():
-    while True:
+    createCal()
+    
+    while False:
         print('Vad vill du göra?\n1. Skapa kalender\n2. Kolla uppdatering\n3. Avsluta\n')
         ans = input('')
         if ans == '1':
@@ -204,7 +209,7 @@ def main():
         else:
             print('Invalid input\n')
 
-
+root = Tk()
 path = 'D:\\Jonatan\\Downloads\\Arbetsschema - Jonatan Lindstrom.pdf'
 path = 'D:\Jonatan\Downloads\Programmering\arbetsschema.isc'
 
