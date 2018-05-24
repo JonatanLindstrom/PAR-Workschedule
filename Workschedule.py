@@ -151,13 +151,13 @@ def createCal():
     print('Inläsning lyckad!\n')
 
     print('Skapar iCalendar-fil...')
-    writeCal(schema)
+    writeCal(schema, root.filename)
     print('Fil skapad!')
 
     return
 
 
-def writeCal(workschedule):
+def writeCal(workschedule, path):
     cal = Calendar()
 
     for workshift in workschedule:
@@ -175,43 +175,25 @@ def writeCal(workschedule):
         event.add('dtend', dtend)
         cal.add_component(event)
 
-    f = open('arbetsschema.isc', 'wb')
+    path = path.split('/')
+    output = ''
+    for i in range(len(path) - 1):
+        output += path[i] + '/'
+    output += 'GLT Arbetsschema.isc'
+
+    f = open(output, 'wb')
     f.write(cal.to_ical())
     f.close()
 
     return cal
 
 
-def compareCal():
-    pathSchedule = 'D:\\Jonatan\\Downloads\\Arbetsschema - Jonatan Lindstrom.pdf'
-    pathCal = 'D:\\Jonatan\\Documents\\Programmering\\arbetsschema.isc'
-
-    print('Läser in schema...')
-    schema = readSchedule(pathSchedule)
-    print('Inläsning lyckad!\n')
-
-    print('Läser in kalender...')
-    readCal(pathCal)
-
-
 def main():
+    print(intro)
     createCal()
-    
-    while False:
-        print('Vad vill du göra?\n1. Skapa kalender\n2. Kolla uppdatering\n3. Avsluta\n')
-        ans = input('')
-        if ans == '1':
-            createCal()
-        elif ans == '2':
-            compareCal()
-        elif ans == '3':
-            exit()
-        else:
-            print('Invalid input\n')
+
 
 root = Tk()
-path = 'D:\\Jonatan\\Downloads\\Arbetsschema - Jonatan Lindstrom.pdf'
-path = 'D:\Jonatan\Downloads\Programmering\arbetsschema.isc'
 
 intro = '''OBS: Detta program är skrivet privat och används på eget bevåg!\n
 Jag som skapare garanterar inte att det fungerar felfritt, utan dubbelkolla alltid resultatet.
