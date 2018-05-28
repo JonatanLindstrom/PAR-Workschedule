@@ -193,6 +193,7 @@ def writeCal(workschedule, path):
             output = output[:-4] + ' (1).ics'
         else:
             output = output[:-6] + str(i) + ').ics'
+        i += 1
 
     f = open(output, 'wb')
     f.write(cal.to_ical())
