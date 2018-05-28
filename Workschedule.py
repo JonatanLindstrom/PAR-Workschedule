@@ -187,6 +187,13 @@ def writeCal(workschedule, path):
         output += path[i] + '/'
     output += 'GLT Arbetsschema.ics'
 
+    i = 0
+    while os.path.isfile(output):
+        if i == 0:
+            output = output[:-4] + ' (1).ics'
+        else:
+            output = output[:-6] + str(i) + ').ics'
+
     f = open(output, 'wb')
     f.write(cal.to_ical())
     f.close()
