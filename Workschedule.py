@@ -82,14 +82,17 @@ def readSchedule(path):
 
     #remove unneccessary text
     text = extracted_text.replace('\n', '')
+    
     for i in range(pages + 1):
         text = text.replace(str(i) + '/' + str(pages), '')
     text = text.replace('dag', 'dag\n')
     text = text.replace('Arbetspass', 'Arbetspass\n')
     text = text.replace('Utbildning', 'Utbildning\n')
+    text = text.replace('Centrallagret/Park', 'Arbetspass\n')
+    text = text.replace('Centrallagret/Kostymförrådet', 'Arbetspass\n')
     text = text.replace('StartSlutStation och position', '\n')
     text = text.split('\n')
-
+    
     workschedule = []
     workset = set([])
 
@@ -171,7 +174,7 @@ def writeCal(workschedule, path):
 
         dtstart = datetime(int(date[0]), int(date[1]), int(date[2]), int(stime[0]), int(stime[1]))
         dtend = datetime(int(date[0]), int(date[1]), int(date[2]), int(etime[0]), int(etime[1]))
-
+        
         event.add('summary', workshift.info)
         event.add('dtstart', dtstart)
         event.add('dtend', dtend)
@@ -181,7 +184,7 @@ def writeCal(workschedule, path):
     output = ''
     for i in range(len(path) - 1):
         output += path[i] + '/'
-    output += 'GLT Arbetsschema.isc'
+    output += 'GLT Arbetsschema.ics'
 
     f = open(output, 'wb')
     f.write(cal.to_ical())
