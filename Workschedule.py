@@ -91,6 +91,7 @@ def readSchedule(path):
     text = text.replace('Centrallagret/Park', 'Arbetspass\n')
     text = text.replace('Centrallagret/Kostymförrådet', 'Arbetspass\n')
     text = text.replace('StartSlutStation och position', '\n')
+    text = text.replace('AB Gröna Lunds Tivoli', '')
     text = text.split('\n')
     
     workschedule = []
