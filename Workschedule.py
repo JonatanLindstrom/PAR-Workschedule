@@ -88,12 +88,17 @@ def readSchedule(path):
     text = text.replace('dag', 'dag\n')
     text = text.replace('Arbetspass', 'Arbetspass\n')
     text = text.replace('Utbildning', 'Utbildning\n')
-    text = text.replace('Centrallagret/Park', 'Arbetspass\n')
-    text = text.replace('Centrallagret/Kostymförrådet', 'Arbetspass\n')
+    text = text.replace('Centrallagret/Park', 'Arbetspass Lager/Park\n')
+    text = text.replace('Centrallagret/Kostymförrådet', 'Arbetspass Lager/Koff\n')
+    text = text.replace('Centrallagret/Varumottagning', 'Arbetspass Lager/VM\n')
     text = text.replace('StartSlutStation och position', '\n')
     text = text.replace('AB Gröna Lunds Tivoli', '')
     text = text.split('\n')
     
+    shiftinfo = ('Utbildning', 'Arbetspass', 
+                 'Arbetspass Lager/Park', 'Lager/Koff',
+                 'Arbetspass Lager/VM')
+
     workschedule = []
     workset = set([])
 
@@ -104,7 +109,7 @@ def readSchedule(path):
         elif 17 < len(row) and row.endswith('dag'):
             row = row[2:len(row)]
 
-        if row.endswith('Arbetspass') or row.endswith('Utbildning'):
+        if row.endswith(shiftinfo):
             date = previous_row[0:10]
             start = row[0:5]
             end = row[5:10]
