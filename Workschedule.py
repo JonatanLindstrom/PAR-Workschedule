@@ -1,4 +1,5 @@
 import os
+import re
 # Import GUI
 from tkinter import *
 from tkinter import filedialog
@@ -85,31 +86,28 @@ def readSchedule(path):
     
     for i in range(pages + 1):
         text = text.replace(str(i) + '/' + str(pages), '')
-    text = text.replace('dag', 'dag\n')
-    text = text.replace('Arbetspass', 'Arbetspass\n')
-    text = text.replace('Utbildning', 'Utbildning\n')
-    text = text.replace('Centrallagret/Park', 'Arbetspass Lager/Park\n')
-    text = text.replace('Centrallagret/Kostymförrådet', 'Arbetspass Lager/Koff\n')
-    text = text.replace('Centrallagret/Varumottagning', 'Arbetspass Lager/VM\n')
-    text = text.replace('StartSlutStation och position', '\n')
     text = text.replace('AB Gröna Lunds Tivoli', '')
+    text = text.replace('Arbetsschema för', '\nArbetsschema för')
+    text = text.replace('StartSlutStation och position', '\n')
+    text = text.replace('2018', '\n2018')
+    text = text.replace('dag', 'dag\n')
+    print(text)
     text = text.split('\n')
-    
-    shiftinfo = ('Utbildning', 'Arbetspass', 
-                 'Arbetspass Lager/Park', 'Lager/Koff',
-                 'Arbetspass Lager/VM')
+
+    shift = re.compile('[0-2][0-9]:[0-5][0-9][0-2][0-9]:[0-5][0-9][^^]+')
+    weeknum = re.compile('[0-5][0-9]')
 
     workschedule = []
     workset = set([])
 
     previous_row = ''
     for row in text:
-        if row == '' or row[0].isalpha() or row[0] == ' ' or row[0] == '&':
+        if row == '' or row[0].isalpha() or row[0] == ' ': # or row[0] == '&':
             continue
-        elif 17 < len(row) and row.endswith('dag'):
+        elif 16 < len(row) and weeknum.match(row[len(row)-2:len(row)]):
             row = row[2:len(row)]
 
-        if row.endswith(shiftinfo):
+        if shift.match(row):
             date = previous_row[0:10]
             start = row[0:5]
             end = row[5:10]
@@ -197,6 +195,7 @@ def writeCal(workschedule, path):
         if i == 0:
             output = output[:-4] + ' (1).ics'
         else:
+            parenthesis = output.find('(')
             output = output[:-6] + str(i) + ').ics'
         i += 1
 
