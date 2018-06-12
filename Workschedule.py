@@ -91,8 +91,8 @@ def readSchedule(path):
     text = text.replace('StartSlutStation och position', '\n')
     text = text.replace('2018', '\n2018')
     text = text.replace('dag', 'dag\n')
-    print(text)
     text = text.split('\n')
+    print(text)
 
     shift = re.compile('[0-2][0-9]:[0-5][0-9][0-2][0-9]:[0-5][0-9][^^]+')
     weeknum = re.compile('[0-5][0-9]')
@@ -102,10 +102,14 @@ def readSchedule(path):
 
     previous_row = ''
     for row in text:
-        if row == '' or row[0].isalpha() or row[0] == ' ': # or row[0] == '&':
+        if row == '' or row[0].isalpha() or row[0] == ' ':
+            continue
+        elif 3 > len(row) and weeknum.match(row):
             continue
         elif 16 < len(row) and weeknum.match(row[len(row)-2:len(row)]):
-            row = row[2:len(row)]
+            print(row, end='\t\t')
+            row = row[:-2]
+            print(row)
 
         if shift.match(row):
             date = previous_row[0:10]
@@ -119,6 +123,10 @@ def readSchedule(path):
         previous_row = row
     
     workschedule.sort()
+
+    for shift in workschedule:
+        print(shift)
+
     return workschedule
 
 
@@ -196,7 +204,7 @@ def writeCal(workschedule, path):
             output = output[:-4] + ' (1).ics'
         else:
             parenthesis = output.find('(')
-            output = output[:-6] + str(i) + ').ics'
+            output = output[:parenthesis+1] + str(i) + ').ics'
         i += 1
 
     f = open(output, 'wb')
