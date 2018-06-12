@@ -87,6 +87,9 @@ def readSchedule(path):
     for i in range(pages + 1):
         text = text.replace(str(i) + '/' + str(pages), '')
     text = text.replace('AB Gröna Lunds Tivoli', '')
+    text = text.replace('AB Furuviksparken', '')
+    text = text.replace('Kolmårdens Djurpark AB', '')
+    text = text.replace('Skara Sommarland AB', '')
     text = text.replace('Arbetsschema för', '\nArbetsschema för')
     text = text.replace('StartSlutStation och position', '\n')
     text = text.replace('2018', '\n2018')
