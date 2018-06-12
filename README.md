@@ -4,4 +4,4 @@ Detta program konverterar en av PARPAS genererad PDF till iCalendar-fil (ICS). E
 
 # Disclaimer
 
-Notera att detta inte är något officiellt eller med 100% säkerhet fungerar. Då jag endast haft mitt egna schema att testa programmet med kan oväntade problem uppstå för scheman med andra sorters pass. Var därför noga med att dubbelkolla att ICS-filen stämmer överens med PDFen. Vid uppdateringar i PARPAS måste din kalender uppdateras manuellt.
+Notera att detta inte är något officiellt och iom det finns ingen säkerhet på att programmet fungerar felfritt. Då jag endast haft mitt egna schema att testa programmet med kan oväntade problem uppstå för scheman med andra sorters pass eller från andra parker. Var därför noga med att dubbelkolla att ICS-filen stämmer överens med PDFen. Vid uppdateringar i PARPAS måste din kalender uppdateras manuellt.
