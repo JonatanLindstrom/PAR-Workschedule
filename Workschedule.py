@@ -92,7 +92,6 @@ def readSchedule(path):
     text = text.replace('2018', '\n2018')
     text = text.replace('dag', 'dag\n')
     text = text.split('\n')
-    print(text)
 
     shift = re.compile('[0-2][0-9]:[0-5][0-9][0-2][0-9]:[0-5][0-9][^^]+')
     weeknum = re.compile('[0-5][0-9]')
@@ -107,9 +106,7 @@ def readSchedule(path):
         elif 3 > len(row) and weeknum.match(row):
             continue
         elif 16 < len(row) and weeknum.match(row[len(row)-2:len(row)]):
-            print(row, end='\t\t')
             row = row[:-2]
-            print(row)
 
         if shift.match(row):
             date = previous_row[0:10]
@@ -124,8 +121,8 @@ def readSchedule(path):
     
     workschedule.sort()
 
-    for shift in workschedule:
-        print(shift)
+    #for shift in workschedule:
+    #    print(shift)
 
     return workschedule
 
