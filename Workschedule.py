@@ -1,5 +1,9 @@
 import os
-import PDFminer
+import re
+# Import GUI
+from tkinter import *
+from tkinter import filedialog
+# Import PDFMiner
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfpage import PDFPage
@@ -79,25 +83,35 @@ def readSchedule(path):
 
     #remove unneccessary text
     text = extracted_text.replace('\n', '')
+    
     for i in range(pages + 1):
         text = text.replace(str(i) + '/' + str(pages), '')
-    text = text.replace('dag', 'dag\n')
-    text = text.replace('Arbetspass', 'Arbetspass\n')
-    text = text.replace('Utbildning', 'Utbildning\n')
+    text = text.replace('AB Gröna Lunds Tivoli', '')
+    text = text.replace('AB Furuviksparken', '')
+    text = text.replace('Kolmårdens Djurpark AB', '')
+    text = text.replace('Skara Sommarland AB', '')
+    text = text.replace('Arbetsschema för', '\nArbetsschema för')
     text = text.replace('StartSlutStation och position', '\n')
+    text = text.replace('2018', '\n2018')
+    text = text.replace('dag', 'dag\n')
     text = text.split('\n')
+
+    shift = re.compile('[0-2][0-9]:[0-5][0-9][0-2][0-9]:[0-5][0-9][^^]+')
+    weeknum = re.compile('[0-5][0-9]')
 
     workschedule = []
     workset = set([])
 
     previous_row = ''
     for row in text:
-        if row == '' or row[0].isalpha() or row[0] == ' ' or row[0] == '&':
+        if row == '' or row[0].isalpha() or row[0] == ' ':
             continue
-        elif 17 < len(row) and row.endswith('dag'):
-            row = row[2:len(row)]
+        elif 3 > len(row) and weeknum.match(row):
+            continue
+        elif 16 < len(row) and weeknum.match(row[len(row)-2:len(row)]):
+            row = row[:-2]
 
-        if row.endswith('Arbetspass') or row.endswith('Utbildning'):
+        if shift.match(row):
             date = previous_row[0:10]
             start = row[0:5]
             end = row[5:10]
@@ -109,6 +123,10 @@ def readSchedule(path):
         previous_row = row
     
     workschedule.sort()
+
+    #for shift in workschedule:
+    #    print(shift)
+
     return workschedule
 
 
@@ -140,20 +158,23 @@ def readCal(path):
 
 
 def createCal():
-    path = input('Skriv filvägen för ditt schema (ex. C:\\\\User\\\\Downloads\\\\Schema.pdf): \n')
+    root.filename = filedialog.askopenfilename(title = "Select file",filetypes = (("PDF-files","*.pdf"),("all files","*.*")))
 
-    print('Läser in schema...')
-    schema = readSchedule(path)
-    print('Inläsning lyckad!\n')
+    if root.filename != '':
+        print('Läser in schema...')
+        schema = readSchedule(root.filename)
+        print('Inläsning lyckad!\n')
 
-    print('Skapar iCalendar-fil...')
-    writeCal(schema)
-    print('Fil skapad!')
+        print('Skapar iCalendar-fil...')
+        writeCal(schema, root.filename)
+        print('Fil skapad!')
+    else:
+        print('Programmet avbrutet.')
 
     return
 
 
-def writeCal(workschedule, path=None):
+def writeCal(workschedule, path):
     cal = Calendar()
 
     for workshift in workschedule:
@@ -163,55 +184,47 @@ def writeCal(workschedule, path=None):
         stime = workshift.starttime.split(':')
         etime = workshift.endtime.split(':')
 
-        dtstart = datetime(int(date[0]), int(date[1]), int(date[2]), int(stime[0]), int(stime[1], 0))
-        dtend = datetime(int(date[0]), int(date[1]), int(date[2]), int(etime[0]), int(etime[1], 0))
-
+        dtstart = datetime(int(date[0]), int(date[1]), int(date[2]), int(stime[0]), int(stime[1]))
+        dtend = datetime(int(date[0]), int(date[1]), int(date[2]), int(etime[0]), int(etime[1]))
+        
         event.add('summary', workshift.info)
         event.add('dtstart', dtstart)
         event.add('dtend', dtend)
         cal.add_component(event)
 
-    f = open('arbetsschema.isc', 'wb')
+    path = path.split('/')
+    output = ''
+    for i in range(len(path) - 1):
+        output += path[i] + '/'
+    output += 'GLT Arbetsschema.ics'
+
+    i = 0
+    while os.path.isfile(output):
+        if i == 0:
+            output = output[:-4] + ' (1).ics'
+        else:
+            parenthesis = output.find('(')
+            output = output[:parenthesis+1] + str(i) + ').ics'
+        i += 1
+
+    f = open(output, 'wb')
     f.write(cal.to_ical())
     f.close()
 
     return cal
 
 
-def compareCal():
-    pathSchedule = 'D:\\Jonatan\\Downloads\\Arbetsschema - Jonatan Lindstrom.pdf'
-    #input('Skriv filvägen för ditt schema (ex. C:\\\\User\\\\Downloads\\\\Schema.pdf): \n')
-    pathCal = 'D:\\Jonatan\\Documents\\Programmering\\arbetsschema.isc'
-    #input('Skriv filvägen för kalendern (ex. C:\\\\User\\\\Downloads\\\\Kalender.isc): \n')
-
-    print('Läser in schema...')
-    schema = readSchedule(pathSchedule)
-    print('Inläsning lyckad!\n')
-
-    print('Läser in kalender...')
-    readCal(pathCal)
-
-
 def main():
-    while True:
-        print('Vad vill du göra?\n1. Skapa kalender\n2. Kolla uppdatering\n3. Avsluta\n')
-        ans = input('')
-        if ans == '1':
-            createCal()
-        elif ans == '2':
-            compareCal()
-        elif ans == '3':
-            exit()
-        else:
-            print('Invalid input\n')
+    print(intro)
+    createCal()
 
 
-path = 'D:\\Jonatan\\Downloads\\Arbetsschema - Jonatan Lindstrom.pdf'
-path = 'D:\Jonatan\Downloads\Programmering\arbetsschema.isc'
+root = Tk()
+root.withdraw()
 
-intro = '''OBS: Detta program är skrivet privat och används på eget bevåg!\n
+intro = '''OBS: Detta program är skrivet privat och används på eget bevåg!
 Jag som skapare garanterar inte att det fungerar felfritt, utan dubbelkolla alltid resultatet.
-Utöver Detta bör du komma ihåg att schemat ej uppdateras automatiskt, utan programmet måste köras för varje ny schemaändring.\n''' 
+Utöver detta bör du komma ihåg att schemat ej uppdateras automatiskt, utan uppdatering av schemat måste göras manuellt.\n''' 
 
 if __name__ == '__main__':
     main()
