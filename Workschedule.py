@@ -1,4 +1,5 @@
 import os
+import PDFminer
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfpage import PDFPage
@@ -152,7 +153,7 @@ def createCal():
     return
 
 
-def writeCal(workschedule):
+def writeCal(workschedule, path=None):
     cal = Calendar()
 
     for workshift in workschedule:
