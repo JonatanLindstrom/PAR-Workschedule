@@ -84,6 +84,9 @@ def readSchedule(path):
     #remove unneccessary text
     text = extracted_text.replace('\n', '')
     
+    #find which year it is so textreplacement can be done (on the entire decade to be sure)
+    thisYear = datetime.now().year
+
     for i in range(pages + 1):
         text = text.replace(str(i) + '/' + str(pages), '')
     text = text.replace('AB Gröna Lunds Tivoli', '')
@@ -92,10 +95,11 @@ def readSchedule(path):
     text = text.replace('Skara Sommarland AB', '')
     text = text.replace('Arbetsschema för', '\nArbetsschema för')
     text = text.replace('StartSlutStation och position', '\n')
-    text = text.replace('2018', '\n2018')
+    for year in range(thisYear - 2, thisYear + 10):
+        text = text.replace(str(year), '\n' + str(year))
     text = text.replace('dag', 'dag\n')
     text = text.split('\n')
-
+    
     shift = re.compile('[0-2][0-9]:[0-5][0-9][0-2][0-9]:[0-5][0-9][^^]+')
     weeknum = re.compile('[0-5][0-9]')
 
@@ -124,8 +128,8 @@ def readSchedule(path):
     
     workschedule.sort()
 
-    #for shift in workschedule:
-    #    print(shift)
+    for shift in workschedule:
+       print(shift)
 
     return workschedule
 
