@@ -2,8 +2,6 @@
 
 Detta program konverterar en av PARPAS genererad PDF till iCalendar-fil (ICS). En ICS-fil kan importeras i de flesta sorters kalenderprogram, exempelvis Google Calendar för att lättare hålla koll på ditt schema då krångel med PARPAS uppstår.
 
-En exe-fil med programmet kan hämtas [här](https://jonatanlindstroom.github.io/PAR-Workschedule/dist/PAR%20WorkSchedule.exe)
-
 ## Setup
 
 #### Clone repo:
