@@ -8,19 +8,70 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="style.css"/>
 
+        <link rel="shortcut icon" href="D:/Jonatan/Documents/Programmering/PARPASS/PAR-Workschedule/bil.ico">
+
         <title>PAR Workschedule</title>
     </head>
 
     <body>
-        <div id="header">
+        <div class="header-overlay-fade"></div>
+        <div id="header" class="jumbotron">
             <h2>PAR Workschedule</h2>
         </div>
+
+
         <div class="container-fluid">
-            <div class="row">
-                <button type="button" class="btn btn-primary btn-block">
-                    <a href="../dist/PAR%20WorkSchedule.exe" download>Download program</a>
-                </button>
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <p>Detta program konverterar en av PARPAS genererad PDF till iCalendar-fil (ICS). 
+                        En ICS-fil kan importeras i de flesta sorters kalenderprogram, 
+                        exempelvis Google Calendar för att lättare hålla koll på ditt schema då krångel med PARPAS uppstår.</p>
+                    <p>Notera att det lämnas ingen garanti på att programmet fungerar felfritt.
+                            Då jag endast haft mitt egna schema att testa programmet med kan oväntade problem uppstå för scheman med andra sorters pass eller från andra parker. 
+                            Var därför noga med att dubbelkolla att ICS-filen stämmer överens med PDFen. 
+                            Vid uppdateringar i PARPAS måste din kalender uppdateras manuellt.</p>
+                </div>
             </div>
+
+            
+            <div class="row justify-content-center">
+                <div class="col-5">
+                    <a class="btn btn-primary btn-block" href="../dist/PAR%20WorkSchedule.exe" download>
+                        Hämta program (.exe)
+                    </a>
+                    <a class="btn btn-success btn-block" href="/">
+                        Hämta source code (.py)
+                    </a>
+                    <p><br/>
+                        När du kör programmet kommer du få upp ett terminal-fönster samt en fil-dialog. 
+                        Välj här det schema du fått från parpas eller i ditt anställningserbjudande.
+                        Programmet skriver nu om denna info till en iCalendar-fil och lägger 
+                        <strong>i samma mapp som pdf-filen.</strong> 
+                        Denna kan du nu importera i valfritt kalender program.</p>
+                    <h5>Användbara länkar:</h5>
+                    <a href="https://support.google.com/calendar/answer/37118?hl=sv">
+                        Google calendar: Importerar iCal-filer
+                    </a>
+                    <p>Har du problem med programmet? 
+                        <a href="https://www.facebook.com/JonatanLindstroom">Hör av dig!</a>
+                    </p>
+                </div>
+                <div class="col-5">
+                    <img src="runthrough.gif"/>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <div id="footer" class="fixed-bottom">
+            <p>© Jonatan Lindström</p>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -1,9 +1,41 @@
 /* HTML, Body */
 html {
-    background-image: linear-gradient(to right, #fdfcfb , #f0e7df);
+    background-image: linear-gradient(to right, #f0e7df , #e2d1c3);
 }
 body {
     background-image: linear-gradient(to bottom right, #fdfcfb , #e2d1c3);
+    font-size: 1em;
 }
+
+.jumbotron {
+    background-color: #759C71;
+}
+
+#header,
+#footer {
+    text-align: center;
+}
+
+#header {
+    color: #fff;
+    border-bottom: solid #416a40;
+}
+
+.header-overlay-fade {
+    width: 100%;
+    min-height: 75px;
+    position: absolute;
+    top: 0;
+    background: -webkit-linear-gradient(#416a40, rgba(100, 100, 100, 0))
+}
+
+.row {
+    padding-top: 20px;
+}
+
+img {
+    width: 100%;
+}
+
 
 

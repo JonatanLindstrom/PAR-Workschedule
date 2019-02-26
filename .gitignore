@@ -1,7 +1,6 @@
 /__pycache__
 /build
 .vscode
-*.ico
 *.bat
 *.ics
 *.pdf
