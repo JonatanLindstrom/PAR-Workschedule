@@ -4,7 +4,7 @@ html {
 }
 body {
     background-image: linear-gradient(to bottom right, #fdfcfb , #e2d1c3);
-    font-size: 1em;
+    font-family: 'Rubik', sans-serif;
 }
 
 .jumbotron {
@@ -18,7 +18,12 @@ body {
 
 #header {
     color: #fff;
+    font-family: 'Ubuntu', sans-serif;
     border-bottom: solid #416a40;
+}
+
+#header h1 {
+    font-size: 50px;
 }
 
 .header-overlay-fade {
