@@ -2,8 +2,8 @@
 /build
 /dist
 .vscode
-*.bat
 *.ics
+*.icns
 *.pdf
 *.spec
 version.txt
