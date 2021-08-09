@@ -6,7 +6,7 @@ Detta program konverterar en av PARPAS genererad PDF till iCalendar-fil (ICS). E
 
 #### Clone repo:
 ```
-git clone git@github.com:JonatanLindstroom/PAR-Workschedule.git
+git clone git@github.com:JonatanLindstrom/PAR-Workschedule.git
 cd PAR-Workschedule
 ```
 
